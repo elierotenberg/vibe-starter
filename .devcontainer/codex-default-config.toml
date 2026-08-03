@@ -1,0 +1,16 @@
+approval_policy = "never"
+allow_login_shell = false
+web_search = "live"
+
+[history]
+persistence = "none"
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false
+experimental_use_profile = false
+exclude = ["*KEY*", "*SECRET*", "*TOKEN*", "ANTHROPIC_*", "AWS_*", "AZURE_*", "GOOGLE_*", "GITHUB_*", "GH_*", "NPM_*", "OPENAI_API_KEY"]
+
+[tools]
+web_search = true
+view_image = true

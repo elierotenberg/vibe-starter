@@ -1,0 +1,13 @@
+services:
+  workspace:
+    environment:
+      DEVCONTAINER_WORKTREE_SLUG: ${COMPOSE_PROJECT_NAME:?Compose project name is required}
+    volumes:
+      # Compose resolves these sources from the first Compose file's directory,
+      # which is the selected worktree root for this profile.
+      - type: bind
+        source: ../../.git
+        target: /.git
+      - type: bind
+        source: .
+        target: /.worktrees/${COMPOSE_PROJECT_NAME:?Compose project name is required}

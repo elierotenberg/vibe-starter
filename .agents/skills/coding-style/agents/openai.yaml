@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coding Style"
+  short_description: "Apply portable TypeScript coding conventions"
+  default_prompt: "Use $coding-style to implement this TypeScript change consistently."

@@ -1,0 +1,80 @@
+allowed_approval_policies = ["never"]
+allowed_approvals_reviewers = ["user"]
+allowed_sandbox_modes = ["read-only", "workspace-write"]
+allowed_web_search_modes = ["live"]
+allow_appshots = false
+allow_managed_hooks_only = true
+allow_remote_control = false
+default_permissions = "autonomous-safe"
+
+[allowed_permission_profiles]
+autonomous-safe = true
+
+[permissions.autonomous-safe]
+description = "Develop, commit, and push from the selected checkout."
+extends = ":workspace"
+
+[permissions.autonomous-safe.filesystem]
+":minimal" = "read"
+":workspace_roots" = { "." = "write", ".agent-state/**" = "deny", ".git/**" = "write", ".git/config" = "read", ".git/hooks/**" = "read", ".devcontainer/**" = "read", ".claude/**" = "read", ".codex/**" = "read", ".github/workflows/**" = "read", "CLAUDE.md" = "read", "compose.yaml" = "read", ".env" = "deny", ".env.*" = "deny" }
+"/.git" = "write"
+"/.git/config" = "read"
+"/.git/hooks" = "read"
+"/.worktrees" = "write"
+"/home/node/.config" = "write"
+"/home/node/.claude" = "deny"
+"/home/node/.codex" = "deny"
+# Codex creates per-process launch aliases here before loading this policy. The runtime adds the
+# live alias directory back as read-only, while the Compose-project volume keeps sibling
+# worktrees from sharing mutable launchers.
+"/home/node/.codex/tmp/arg0" = "write"
+"/home/node/.ssh" = "deny"
+"/home/node/.npmrc" = "deny"
+"/root" = "deny"
+"/run" = "deny"
+
+[permissions.autonomous-safe.network]
+enabled = true
+allow_local_binding = true
+allow_upstream_proxy = false
+dangerously_allow_all_unix_sockets = false
+dangerously_allow_non_loopback_proxy = false
+
+[permissions.autonomous-safe.network.domains]
+"127.0.0.1" = "allow"
+"api.github.com" = "allow"
+"codeload.github.com" = "allow"
+"github.com" = "allow"
+"localhost" = "allow"
+"npm.pkg.github.com" = "allow"
+"objects.githubusercontent.com" = "allow"
+"postgres" = "allow"
+"raw.githubusercontent.com" = "allow"
+"registry.npmjs.org" = "allow"
+"release-assets.githubusercontent.com" = "allow"
+"uploads.github.com" = "allow"
+
+# Exact denied directories cover their descendants and avoid per-file Bubblewrap glob masks.
+[permissions.filesystem]
+deny_read = [
+  "/workspace/.agent-state",
+  "/home/node/.claude",
+  "/home/node/.codex",
+  "/home/node/.ssh",
+  "/home/node/.npmrc",
+  "/workspace/.env",
+  "/workspace/.env.*",
+]
+
+[features]
+apps = false
+browser_use = false
+browser_use_external = false
+browser_use_full_cdp_access = false
+computer_use = false
+guardian_approval = false
+in_app_browser = false
+plugins = false
+remote_plugin = false
+
+[mcp_servers]

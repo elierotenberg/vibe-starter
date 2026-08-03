@@ -1,0 +1,4 @@
+interface:
+  display_name: "Host maintenance"
+  short_description: "Prepare reviewable WSL maintenance instructions"
+  default_prompt: "Use $host-maintenance to prepare safe, reviewable WSL steps for this blocked operation."

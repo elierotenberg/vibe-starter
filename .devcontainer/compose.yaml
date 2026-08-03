@@ -1,0 +1,78 @@
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
+    user: node
+    init: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
+      PNPM_HOME: /home/node/.local/share/pnpm
+      npm_config_store_dir: /workspace/.pnpm-store
+    networks:
+      - backend
+      - agent-egress
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+      # Moby's default allowlist plus rootless Bubblewrap's private namespace setup.
+      - seccomp=.devcontainer/seccomp-bubblewrap.json
+    pids_limit: 1024
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+      # Codex launch aliases must execute inside its inner sandbox. Keep their mutable parent
+      # outside shared authentication state and isolate it by Compose project/worktree.
+      - type: volume
+        source: codex-runtime
+        target: /home/node/.codex/tmp
+      # Compose owns these overlays because some editor Dev Container clients
+      # discard the read-only flag when translating their mounts into Compose.
+      - type: bind
+        source: .devcontainer
+        target: /workspace/.devcontainer
+        read_only: true
+      - type: bind
+        source: .claude
+        target: /workspace/.claude
+        read_only: true
+      - type: bind
+        source: .codex
+        target: /workspace/.codex
+        read_only: true
+      - type: bind
+        source: .github/workflows
+        target: /workspace/.github/workflows
+        read_only: true
+      - type: bind
+        source: CLAUDE.md
+        target: /workspace/CLAUDE.md
+        read_only: true
+      - type: bind
+        source: compose.yaml
+        target: /workspace/compose.yaml
+        read_only: true
+      - type: tmpfs
+        target: /workspace/.agent-state
+        read_only: true
+        tmpfs:
+          size: 4096
+          mode: 0
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 536870912
+          # Docker's API expects the permission bitmask as a decimal integer.
+          mode: 1023 # 01777
+
+networks:
+  agent-egress:
+
+volumes:
+  codex-runtime:

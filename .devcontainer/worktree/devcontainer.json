@@ -1,0 +1,117 @@
+{
+  "name": "Worktree",
+  "dockerComposeFile": ["../../compose.yaml", "../compose.yaml", "compose.yaml"],
+  "service": "workspace",
+  "runServices": ["workspace", "postgres"],
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": true,
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+  "userEnvProbe": "none",
+  "postCreateCommand": "node /usr/local/share/devcontainer-workspace/post-create.ts",
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/node/.claude",
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_SKIP_PROMPT_HISTORY": "1",
+    "CODEX_HOME": "/home/node/.codex",
+    "DISABLE_AUTOUPDATER": "1",
+    "GIT_CONFIG_GLOBAL": "/home/node/.config/gitconfig"
+  },
+  "remoteEnv": {
+    "GIT_OPTIONAL_LOCKS": "0"
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/../../.agent-state/claude,target=/home/node/.claude,type=bind",
+    "source=${localWorkspaceFolder}/../../.agent-state/codex,target=/home/node/.codex,type=bind",
+    "source=${localWorkspaceFolder}/../../.agent-state/preferences,target=/home/node/.config,type=bind"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Anthropic.claude-code",
+        "biomejs.biome",
+        "eamodio.gitlens",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "openai.chatgpt",
+        "redhat.vscode-yaml",
+        "Tobermory.es6-string-html",
+        "TypeScriptTeam.native-preview",
+        "yoavbls.pretty-ts-errors"
+      ],
+      "settings": {
+        "[css][javascript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "editor.codeActionsOnSave": {
+          "source.fixAll.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
+        },
+        "editor.formatOnSave": true,
+        "editor.gotoLocation.multipleTypeDefinitions": "goto",
+        "editor.guides.bracketPairs": true,
+        "editor.quickSuggestions": {
+          "comments": "on",
+          "other": "on",
+          "strings": "on"
+        },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.snippetSuggestions": "none",
+        "editor.suggest.localityBonus": true,
+        "editor.suggest.showSnippets": false,
+        "editor.tabCompletion": "on",
+        "editor.tabSize": 2,
+        "files.associations": {
+          ".env*": "dotenv"
+        },
+        "files.exclude": {
+          ".agent-state": true,
+          ".pnpm-store": true
+        },
+        "files.watcherExclude": {
+          "**/.agent-state/**": true,
+          "**/.cache/**": true,
+          "**/build/**": true,
+          "**/dist/**": true,
+          "**/.git/**": true,
+          "**/.pnpm-store/**": true,
+          "**/.wireit/**": true,
+          "**/node_modules/**": true
+        },
+        "git.autofetch": false,
+        "git.confirmSync": true,
+        "git.detectWorktrees": true,
+        "git.enableSmartCommit": false,
+        "intellicodeApiExamples.typescript.enabled": false,
+        "js/ts.experimental.useTsgo": true,
+        "js/ts.format.enabled": false,
+        "js/ts.implementationsCodeLens.enabled": true,
+        "js/ts.preferences.preferTypeOnlyAutoImports": true,
+        "js/ts.referencesCodeLens.enabled": true,
+        "js/ts.referencesCodeLens.showOnAllFunctions": true,
+        "js/ts.server.goMemLimit": "4GiB",
+        "js/ts.tsc.autoDetect": "off",
+        "js/ts.tsdk.path": "node_modules/typescript/lib",
+        "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+        "js/ts.updateImportsOnFileMove.enabled": "always",
+        "json.schemaDownload.enable": true,
+        "references.preferredLocation": "view",
+        "scm.defaultViewMode": "tree",
+        "search.defaultViewMode": "tree",
+        "search.exclude": {
+          "**/.agent-state/**": true,
+          "**/.cache/**": true,
+          "**/build/**": true,
+          "**/dist/**": true,
+          "**/.git/**": true,
+          "**/.pnpm-store/**": true,
+          "**/.wireit/**": true,
+          "**/node_modules/**": true
+        },
+        "window.title": "${dirty}${activeRepositoryBranchName}"
+      }
+    }
+  }
+}
