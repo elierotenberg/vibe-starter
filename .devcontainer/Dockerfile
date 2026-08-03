@@ -1,5 +1,5 @@
 # The digest is the multi-platform image index published for the 24-bookworm tag.
-FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:7f4046f8149ced6dbb5f79089bfac97a300627f9e08f91a47237b555e730e71c
+FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:d7e88ca9d7e48412c4f9afed316dac5a830e194c10bf0bea5912f524e14925dc
 
 ENV PATH="/opt/devcontainer-tools/node_modules/.bin:${PATH}" \
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
