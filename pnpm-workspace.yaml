@@ -1,0 +1,13 @@
+packages:
+  - apps/*
+  - packages/*
+
+autoInstallPeers: false
+engineStrict: true
+ignoreScripts: true
+minimumReleaseAge: 1440
+pmOnFail: download
+preferWorkspacePackages: true
+saveExact: true
+sharedWorkspaceLockfile: true
+strictPeerDependencies: true

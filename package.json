@@ -1,0 +1,61 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": "24.18.0"
+  },
+  "scripts": {
+    "build": "wireit",
+    "dev": "wireit",
+    "format": "wireit",
+    "format:check": "wireit",
+    "lint": "wireit",
+    "test": "wireit",
+    "typecheck": "wireit",
+    "verify": "wireit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.6",
+    "@types/node": "24.13.3",
+    "typescript": "7.0.2",
+    "wireit": "0.14.13"
+  },
+  "wireit": {
+    "build": {
+      "command": "node --eval \"\""
+    },
+    "dev": {
+      "command": "node --eval \"\""
+    },
+    "format": {
+      "command": "biome check --write scripts .devcontainer docs package.json biome.json tsconfig.json tsconfig.base.json"
+    },
+    "format:check": {
+      "command": "biome check scripts .devcontainer docs package.json biome.json tsconfig.json tsconfig.base.json"
+    },
+    "lint": {
+      "command": "biome lint scripts .devcontainer package.json biome.json tsconfig.json tsconfig.base.json"
+    },
+    "test": {
+      "command": "node --test"
+    },
+    "typecheck": {
+      "command": "tsc -p scripts/tsconfig.json"
+    },
+    "verify": {
+      "dependencies": [
+        "format:check",
+        "lint",
+        "typecheck",
+        "test",
+        "build"
+      ]
+    }
+  },
+  "dependencies": {
+    "zod": "4.4.3"
+  }
+}

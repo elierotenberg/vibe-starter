@@ -1,0 +1,35 @@
+# Local planning and prompts
+*.local
+*.local.*
+
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+.wireit/
+**/.wireit/
+
+# Build and test output
+.next/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Framework and tool caches
+.cache/
+.turbo/
+
+# Environment and secrets
+.env
+.env.*
+
+# Local agent configuration
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Linked worktrees live beneath the primary checkout
+.worktrees/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
